@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0c090f" />
+  <title>Çok Önemli Aç</title>
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+    body{min-height:100vh;overflow:hidden;color:#fff;background:radial-gradient(ellipse at 50% 32%,#421d38 0%,#1c101d 48%,#0b080d 100%);-webkit-tap-highlight-color:transparent}
+    #question{min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:clamp(18px,5vh,55px) 16px 24px}
+    .character{width:clamp(110px,22vh,190px);aspect-ratio:1;animation:bob 2.3s ease-in-out infinite;filter:drop-shadow(0 12px 24px #ff78ad30)}
+    .character svg{width:100%;height:100%;overflow:visible}
+    @keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-10px) rotate(3deg)}}
+    h1{margin:clamp(15px,3vh,28px) 0 0;font-size:clamp(34px,7vw,76px);line-height:1.08;text-align:center;letter-spacing:-.04em;text-shadow:0 0 36px #ff5c9660}
+    .buttons{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(18px,5vw,42px);width:100%;flex:1;min-height:190px}
+    button{border:0;color:white;font:800 clamp(23px,4vw,38px) system-ui;cursor:pointer;touch-action:manipulation;transition:transform .2s, font-size .25s}
+    #yes{background:#20c45b;padding:.55em 1.25em;border-radius:15px;box-shadow:0 8px 32px #20c45b55}
+    #yes:hover{background:#2bd66a;transform:scale(1.04)}
+    #no{background:#e63848;padding:.6em 1.25em;border-radius:15px;box-shadow:0 8px 28px #e6384855;position:relative}
+    #no.dodging{position:fixed;z-index:3}
+    #hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+    .heart{position:absolute;bottom:-45px;animation:floatUp linear forwards;opacity:.8}
+    @keyframes floatUp{to{transform:translateY(-110vh) rotate(35deg);opacity:0}}
+    #success{display:none;position:fixed;inset:0;z-index:5;place-items:center;text-align:center;padding:24px;background:radial-gradient(ellipse at center,#672846,#1b101d 68%,#0b080d)}
+    #success.show{display:grid}
+    .success-inner{max-width:700px;animation:appear .8s ease both}
+    .big-heart{font-size:clamp(76px,18vw,150px);animation:beat 1s infinite}
+    #success h2{font-size:clamp(58px,13vw,112px);line-height:.98;margin:12px 0;color:#fff;text-shadow:0 0 32px #7bbcffaa;letter-spacing:-.05em}
+    .blue-flowers{font-size:clamp(28px,6vw,52px);letter-spacing:8px;color:#83c5ff;filter:drop-shadow(0 0 12px #5aaeff88);animation:appear 1.2s ease both}
+    .success-inner p{max-width:620px;margin:14px auto;line-height:1.65}
+    .name-line{display:block;color:#8fcaff;font-size:.72em;letter-spacing:.01em;margin-top:8px}
+    #success p{font-size:clamp(17px,3vw,23px);color:#f5cddd}
+    #again{margin-top:22px;background:transparent;border:1px solid #ffffff66;border-radius:999px;padding:12px 22px;font-size:16px}
+    @keyframes beat{50%{transform:scale(1.13)}}
+    @keyframes appear{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <main id="question">
+    <div class="character" aria-hidden="true">
+      <svg viewBox="0 0 140 140">
+        <g fill="#ff8db8">
+          <ellipse cx="70" cy="17" rx="8" ry="22"/><ellipse cx="70" cy="17" rx="8" ry="22" transform="rotate(45 70 70)"/>
+          <ellipse cx="70" cy="17" rx="8" ry="22" transform="rotate(90 70 70)"/><ellipse cx="70" cy="17" rx="8" ry="22" transform="rotate(135 70 70)"/>
+          <ellipse cx="70" cy="17" rx="8" ry="22" transform="rotate(180 70 70)"/><ellipse cx="70" cy="17" rx="8" ry="22" transform="rotate(225 70 70)"/>
+          <ellipse cx="70" cy="17" rx="8" ry="22" transform="rotate(270 70 70)"/><ellipse cx="70" cy="17" rx="8" ry="22" transform="rotate(315 70 70)"/>
+        </g>
+        <circle cx="70" cy="70" r="43" fill="#ffd27a"/>
+        <ellipse cx="54" cy="79" rx="7" ry="4" fill="#ff7aa8"/><ellipse cx="86" cy="79" rx="7" ry="4" fill="#ff7aa8"/>
+        <ellipse cx="57" cy="64" rx="4" ry="6" fill="#302018"/><ellipse cx="83" cy="64" rx="4" ry="6" fill="#302018"/>
+        <circle cx="58" cy="62" r="1.5" fill="white"/><circle cx="84" cy="62" r="1.5" fill="white"/>
+        <path d="M59 88 Q70 99 81 88" fill="none" stroke="#302018" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1>Benimle Çıkar Mısın?</h1>
+    <div class="buttons" id="buttons">
+      <button id="yes" type="button">Evet</button>
+      <button id="no" type="button">Hayır</button>
+    </div>
+  </main>
+  <div id="hearts"></div>
+  <section id="success" aria-live="polite">
+    <div class="success-inner">
+      <div class="blue-flowers" aria-label="mavi çiçekler">✿ ❀ ✿ ❀ ✿</div>
+      <div class="big-heart">💙</div>
+      <h2>EVET!<span class="name-line">Gülşen</span></h2>
+      <p>Gülşen, bu küçük sorunun kocaman bir mutluluğa dönüşmesini istiyorum. Seninle daha çok gülmek, güzel anılar biriktirmek ve her günü biraz daha özel kılmak istiyorum. İyi ki varsın, güzelim. Bu hikâyenin en güzel kısmı şimdi başlasın.</p>
+      <button id="again">Tekrar başla</button>
+    </div>
+  </section>
+  <script>
+    const yes = document.getElementById('yes');
+    const no = document.getElementById('no');
+    const success = document.getElementById('success');
+    const question = document.getElementById('question');
+    let noCount = 0;
+
+    function dodgeNo(){
+      noCount++;
+      no.classList.add('dodging');
+      const pad = 16;
+      const maxX = Math.max(pad, window.innerWidth - no.offsetWidth - pad);
+      const maxY = Math.max(pad, window.innerHeight - no.offsetHeight - pad);
+      no.style.left = (pad + Math.random() * (maxX - pad)) + 'px';
+      no.style.top = (pad + Math.random() * (maxY - pad)) + 'px';
+      yes.style.fontSize = Math.min(24 + noCount * 5, 76) + 'px';
+      if(noCount >= 5) no.textContent = 'Emin misin?';
+      if(noCount >= 9) no.textContent = 'Bir daha düşün';
+    }
+    no.addEventListener('pointerenter', dodgeNo);
+    no.addEventListener('click', dodgeNo);
+    no.addEventListener('touchstart', e => { e.preventDefault(); dodgeNo(); }, {passive:false});
+
+    function makeHearts(){
+      const layer = document.getElementById('hearts');
+      for(let i=0;i<34;i++){
+        const heart = document.createElement('span');
+        heart.className = 'heart'; heart.textContent = Math.random()>.5 ? '♥' : '♡';
+        heart.style.left = Math.random()*100+'vw';
+        heart.style.fontSize = (14+Math.random()*28)+'px';
+        heart.style.animationDuration = (4+Math.random()*5)+'s';
+        heart.style.animationDelay = (Math.random()*2)+'s';
+        heart.style.color = ['#ff8db8','#ffd0e1','#ff5c96'][Math.floor(Math.random()*3)];
+        layer.appendChild(heart);
+        setTimeout(()=>heart.remove(),11000);
+      }
+    }
+    yes.addEventListener('click',()=>{success.classList.add('show');makeHearts();});
+    document.getElementById('again').addEventListener('click',()=>{
+      success.classList.remove('show'); noCount=0; yes.style.fontSize='';
+      no.classList.remove('dodging'); no.style.left=''; no.style.top=''; no.textContent='Hayır';
+      document.getElementById('hearts').innerHTML='';
+    });
+  </script>
+</body>
+</html>
